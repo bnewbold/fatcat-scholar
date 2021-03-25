@@ -1,8 +1,10 @@
+import json
+
 from fatcat_openapi_client import ReleaseEntity
 
-from fatcat_scholar.schema import *
-from fatcat_scholar.api_entities import *
-from fatcat_scholar.transform import *
+from fatcat_scholar.schema import es_biblio_from_release, es_release_from_release, ScholarBiblio
+from fatcat_scholar.api_entities import entity_from_json
+from fatcat_scholar.transform import biblio_metadata_hacks, run_refs, run_transform
 
 
 def test_es_release_from_release() -> None:
@@ -64,7 +66,7 @@ def test_biblio_metadata_hacks() -> None:
 
     biblio.release_year = 2030
     out = biblio_metadata_hacks(biblio)
-    assert out.release_year == None
+    assert out.release_year is None
 
     biblio.doi_prefix = "10.1101"
     biblio.container_name = None

@@ -19,7 +19,7 @@ from pydantic import BaseModel
 # pytype: enable=import-error
 
 from fatcat_scholar.config import settings
-from fatcat_scholar.identifiers import *
+from fatcat_scholar.identifiers import clean_doi, clean_pmcid
 from fatcat_scholar.schema import ScholarDoc
 from fatcat_scholar.query_parse import sniff_citation_query, pre_parse_query
 from fatcat_scholar.query_citation import try_fuzzy_match
@@ -153,9 +153,9 @@ def apply_filters(search: Search, query: FulltextQuery) -> Search:
             "terms", type=["article-journal", "paper-conference", "chapter", "article"]
         )
     elif query.filter_type == "reports":
-        search = search.filter("terms", type=["report", "standard",])
+        search = search.filter("terms", type=["report", "standard"])
     elif query.filter_type == "datasets":
-        search = search.filter("terms", type=["dataset", "software",])
+        search = search.filter("terms", type=["dataset", "software"])
     elif query.filter_type == "everything":
         pass
     else:
@@ -217,7 +217,7 @@ def process_query(query: FulltextQuery) -> FulltextHits:
         return do_fulltext_search(query)
 
     # try handling raw identifier queries
-    if len(query.q.strip().split()) == 1 and not '"' in query.q:
+    if len(query.q.strip().split()) == 1 and '"' not in query.q:
         doi = clean_doi(query.q)
         if doi:
             return do_lookup_query(f'doi:"{doi}"')
@@ -289,7 +289,7 @@ def do_fulltext_search(
         search = search.extra(
             collapse={
                 "field": "collapse_key",
-                "inner_hits": {"name": "more_pages", "size": 0,},
+                "inner_hits": {"name": "more_pages", "size": 0},
             }
         )
 
@@ -307,7 +307,7 @@ def do_fulltext_search(
         allow_leading_wildcard=False,
         lenient=True,
         quote_field_suffix=".exact",
-        fields=["title^4", "biblio_all^3", "everything",],
+        fields=["title^4", "biblio_all^3", "everything"],
     )
     has_fulltext = Q("terms", **{"access_type": ["ia_sim", "ia_file", "wayback"]})
     poor_metadata = Q(

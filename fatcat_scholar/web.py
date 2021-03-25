@@ -97,6 +97,7 @@ api = APIRouter()
 async def home() -> Any:
     return {"endpoints": {"/": "this", "/search": "fulltext search"}}
 
+
 @api.head("/", include_in_schema=False)
 async def root_head() -> Any:
     """
@@ -116,6 +117,7 @@ async def health() -> Any:
 @api.head("/_health", include_in_schema=False)
 async def health_head() -> Any:
     return Response()
+
 
 class HitsModel(BaseModel):
     count_returned: int

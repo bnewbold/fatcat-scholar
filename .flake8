@@ -1,6 +1,6 @@
 [flake8]
 select = C,E,F,W,ANN
-ignore = F405,F403,W503,E231,E203,E501,E226,E711,E713,E265,ANN101,ANN204,ANN102
-max-complexity = 25
+ignore = E203,W503,ANN101,ANN204,ANN102
+max-complexity = 26
 exclude = .git,__pycache__,.venv
-max-line-length = 120
+max-line-length = 330

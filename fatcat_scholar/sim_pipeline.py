@@ -69,7 +69,7 @@ class SimPipeline:
 
         leaf_index = dict()
         leaf_list = []
-        if not "page_numbers" in issue_meta:
+        if "page_numbers" not in issue_meta:
             # TODO: warn
             return None
         for entry in issue_meta["page_numbers"].get("pages", []):

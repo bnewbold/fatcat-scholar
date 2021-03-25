@@ -57,23 +57,23 @@ def clean_doi(raw: Optional[str]) -> Optional[str]:
 
 
 def test_clean_doi() -> None:
-    assert clean_doi(None) == None
-    assert clean_doi("") == None
-    assert clean_doi("asdf") == None
-    assert clean_doi("10.123") == None
+    assert clean_doi(None) is None
+    assert clean_doi("") is None
+    assert clean_doi("asdf") is None
+    assert clean_doi("10.123") is None
     assert clean_doi("10.1234/asdf ") == "10.1234/asdf"
     assert clean_doi("10.1234/ASdf ") == "10.1234/asdf"
     assert clean_doi("10.1037//0002-9432.72.1.50") == "10.1037/0002-9432.72.1.50"
     assert clean_doi("10.1037/0002-9432.72.1.50") == "10.1037/0002-9432.72.1.50"
-    assert clean_doi("10.23750/abm.v88i2 -s.6506") == None
-    assert clean_doi("10.17167/mksz.2017.2.129–155") == None
+    assert clean_doi("10.23750/abm.v88i2 -s.6506") is None
+    assert clean_doi("10.17167/mksz.2017.2.129–155") is None
     assert clean_doi("http://doi.org/10.1234/asdf ") == "10.1234/asdf"
     assert clean_doi("https://dx.doi.org/10.1234/asdf ") == "10.1234/asdf"
     assert clean_doi("doi:10.1234/asdf ") == "10.1234/asdf"
-    assert clean_doi("doi:10.1234/ asdf ") == None
-    assert clean_doi("10.4149/gpb¬_2017042") == None  # "logical negation" character
+    assert clean_doi("doi:10.1234/ asdf ") is None
+    assert clean_doi("10.4149/gpb¬_2017042") is None  # "logical negation" character
     assert (
-        clean_doi("10.6002/ect.2020.häyry") == None
+        clean_doi("10.6002/ect.2020.häyry") is None
     )  # this example via pubmed (pmid:32519616)
 
 
@@ -89,9 +89,9 @@ def clean_pmcid(raw: Optional[str]) -> Optional[str]:
 
 
 def test_clean_pmcid() -> None:
-    assert clean_pmcid("10.1234/asdf ") == None
-    assert clean_pmcid("") == None
-    assert clean_pmcid("1 2") == None
-    assert clean_pmcid(None) == None
+    assert clean_pmcid("10.1234/asdf ") is None
+    assert clean_pmcid("") is None
+    assert clean_pmcid("1 2") is None
+    assert clean_pmcid(None) is None
     assert clean_pmcid("PMC123") == "PMC123"
     assert clean_pmcid("pmc123") == "PMC123"

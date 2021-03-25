@@ -254,7 +254,7 @@ class IssueDB:
             if not line:
                 continue
             obj = json.loads(line)
-            if not "metadata" in obj:
+            if "metadata" not in obj:
                 continue
             meta = obj["metadata"]
             assert "periodicals" in meta["collection"]
@@ -292,7 +292,7 @@ class IssueDB:
             if not line:
                 continue
             obj = json.loads(line)
-            if not "metadata" in obj:
+            if "metadata" not in obj:
                 continue
             meta = obj["metadata"]
             assert "periodicals" in meta["collection"]

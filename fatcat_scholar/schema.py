@@ -289,14 +289,14 @@ def clean_small_int(raw: Optional[str]) -> Optional[int]:
 
 
 def test_clean_small_int() -> None:
-    assert clean_small_int("") == None
-    assert clean_small_int(None) == None
-    assert clean_small_int("asdf") == None
-    assert clean_small_int("iiv") == None
+    assert clean_small_int("") is None
+    assert clean_small_int(None) is None
+    assert clean_small_int("asdf") is None
+    assert clean_small_int("iiv") is None
     assert clean_small_int("123") == 123
-    assert clean_small_int("1200003") == None
-    assert clean_small_int("-123") == None
-    assert clean_small_int("48844") == None
+    assert clean_small_int("1200003") is None
+    assert clean_small_int("-123") is None
+    assert clean_small_int("48844") is None
 
 
 def doi_split_prefix(doi: str) -> str:
@@ -331,8 +331,8 @@ def clean_url_conservative(url: Optional[str]) -> Optional[str]:
 
 
 def test_clean_url_conservative() -> None:
-    assert clean_url_conservative("") == None
-    assert clean_url_conservative(None) == None
+    assert clean_url_conservative("") is None
+    assert clean_url_conservative(None) is None
     assert (
         clean_url_conservative("<http://en.wikipedia.org/wiki/Rumpelstiltskin>")
         == "http://en.wikipedia.org/wiki/Rumpelstiltskin"

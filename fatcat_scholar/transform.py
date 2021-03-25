@@ -1,4 +1,5 @@
 import sys
+import json
 import argparse
 import datetime
 import xml.etree.ElementTree
@@ -8,10 +9,28 @@ from typing import List, Dict, Optional, Any, Sequence
 import sentry_sdk
 from fatcat_openapi_client import ReleaseEntity, FileEntity, WebcaptureEntity
 
-from fatcat_scholar.api_entities import *
-from fatcat_scholar.schema import *
+from fatcat_scholar.api_entities import entity_from_json
 from fatcat_scholar.config import settings, GIT_REVISION
 from fatcat_scholar.grobid2json import teixml2json
+from fatcat_scholar.schema import (
+    AccessType,
+    clean_small_int,
+    clean_url_conservative,
+    DocType,
+    es_abstracts_from_grobid,
+    es_abstracts_from_release,
+    es_biblio_from_release,
+    es_release_from_release,
+    IntermediateBundle,
+    RefBiblio,
+    RefStructured,
+    ScholarAccess,
+    ScholarAbstract,
+    ScholarBiblio,
+    ScholarDoc,
+    ScholarFulltext,
+    ScholarSim
+)
 
 MAX_BODY_CHARS = 512 * 1024
 
@@ -558,7 +577,7 @@ def transform_heavy(heavy: IntermediateBundle) -> Optional[ScholarDoc]:
             file_ident=fulltext.file_ident,
             release_ident=fulltext.release_ident,
         )
-    if ia_sim and not AccessType.ia_sim in access_dict:
+    if ia_sim and AccessType.ia_sim not in access_dict:
         access_dict[AccessType.ia_sim] = ScholarAccess(
             access_type=AccessType.ia_sim,
             access_url=f"https://archive.org/details/{ia_sim.issue_item}/page/{ia_sim.first_page}",
@@ -578,11 +597,11 @@ def transform_heavy(heavy: IntermediateBundle) -> Optional[ScholarDoc]:
         for _, acc in access_dict.items():
             if "://www.medrxiv.org/" in acc.access_url:
                 biblio.container_name = "medRxiv"
-                if biblio.release_stage == None:
+                if biblio.release_stage is None:
                     biblio.release_stage = "submitted"
             elif "://www.biorxiv.org/" in acc.access_url:
                 biblio.container_name = "bioRxiv"
-                if biblio.release_stage == None:
+                if biblio.release_stage is None:
                     biblio.release_stage = "submitted"
 
     return ScholarDoc(

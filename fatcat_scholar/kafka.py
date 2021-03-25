@@ -119,7 +119,7 @@ class KafkaWorker:
             # user code timeout; if no poll after this long, assume user code
             # hung and rebalance (default: 6min)
             "max.poll.interval.ms": 360000,
-            "default.topic.config": {"auto.offset.reset": "latest",},
+            "default.topic.config": {"auto.offset.reset": "latest"},
         }
 
         consumer = Consumer(config)

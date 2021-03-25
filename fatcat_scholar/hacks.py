@@ -68,8 +68,8 @@ def parse_accept_lang(header: str, options: typing.List[str]) -> typing.Optional
 
 
 def test_parse_accept_lang() -> None:
-    assert parse_accept_lang("", []) == None
-    assert parse_accept_lang("en,de", []) == None
+    assert parse_accept_lang("", []) is None
+    assert parse_accept_lang("en,de", []) is None
     assert parse_accept_lang("en,de", ["en"]) == "en"
     assert parse_accept_lang("en-GB,de", ["en"]) == "en"
     assert parse_accept_lang("zh_Hans_CN", ["en", "zh"]) == "zh"

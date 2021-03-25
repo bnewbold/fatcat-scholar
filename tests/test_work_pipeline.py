@@ -1,3 +1,5 @@
+from typing import Any
+
 import responses
 
 from fatcat_scholar.issue_db import IssueDB
@@ -5,7 +7,7 @@ from fatcat_scholar.sandcrawler import (
     SandcrawlerPostgrestClient,
     SandcrawlerMinioClient,
 )
-from fatcat_scholar.work_pipeline import *
+from fatcat_scholar.work_pipeline import WorkPipeline
 from fatcat_scholar.config import settings
 
 

@@ -31,7 +31,7 @@ def grobid_process_citation(
     try:
         grobid_response = requests.post(
             grobid_host + "/api/processCitation",
-            data={"citations": raw, "consolidateCitations": 0,},
+            data={"citations": raw, "consolidateCitations": 0},
             timeout=timeout,
         )
     except requests.Timeout:
