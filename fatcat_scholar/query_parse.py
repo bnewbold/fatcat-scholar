@@ -18,7 +18,7 @@ def _clean_token(raw: str) -> str:
     if '"' in raw:
         # is quoted already
         return raw
-    if "/" in raw or raw.endswith(":") or raw.endswith("!") or raw.endswith("?"):
+    if "/" in raw or raw.endswith((":", "!", "?")):
         return f'"{raw}"'
     if raw.startswith("[") and raw.endswith("]"):
         return f'"{raw}"'
